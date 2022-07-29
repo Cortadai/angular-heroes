@@ -16,6 +16,14 @@ export class HeroesService {
   constructor(private http:HttpClient,
     private router: Router,) { }
 
+  setOrigen(origen: string){
+    this.origen=origen;
+  }
+
+  getOrigen():string{
+    return this.origen;
+  }
+
   getHeroes():Observable<Heroe[]>{
     return this.http.get<Heroe[]>(`${this.baseUrl}/heroes`);
   }
@@ -28,12 +36,16 @@ export class HeroesService {
     return this.http.get<Heroe[]>(`${this.baseUrl}/heroes?q=${termino}&_limit=6`);
   }
 
-  setOrigen(origen: string){
-    this.origen=origen;
+  agregarHeroe(heroe:Heroe):Observable<Heroe>{
+    return this.http.post<Heroe>(`${this.baseUrl}/heroes`, heroe);
   }
 
-  getOrigen():string{
-    return this.origen;
+  actualizarHeroe(heroe:Heroe):Observable<Heroe>{
+    return this.http.put<Heroe>(`${this.baseUrl}/heroes/${heroe.id}`, heroe);
+  }
+
+  borrarHeroe(id:string):Observable<any>{
+    return this.http.delete<any>(`${this.baseUrl}/heroes/${id}`);
   }
 
 }
